@@ -12,7 +12,8 @@ import UIKit
 class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-   // var list = ["one","two","three","four"]
+   // var list = ["one","two","three","four"]iub
+    
     var list = [NSMutableDictionary]()//[["title":"one","selected":false],["title":"two","selected":false]]
 
     override func viewDidLoad() {
