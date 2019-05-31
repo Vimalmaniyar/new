@@ -13,16 +13,16 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     @IBOutlet weak var tableView: UITableView!
    // var list = ["one","two","three","four"]
-    var list = [[String : Any]]()//[["title":"one","selected":false],["title":"two","selected":false]]
+    var list = [NSMutableDictionary]()//[["title":"one","selected":false],["title":"two","selected":false]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action:#selector(tap))
-        self.navigationItem.leftBarButtonItem = addButton
+        self.navigationItem.rightBarButtonItem = addButton
         for i in 0...30
         {
-            let item = ["title" : String(i), "selected" : false] as [String : Any]
+            let item : NSMutableDictionary = ["title" : String(i), "selected" : false]
 //            list.updateValue(a, forKey: i)
             list.append(item)
             
@@ -66,14 +66,19 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! UITableViewCell
 //        var key   = Array(self.list.keys)[indexPath.row]
 //        var value = Array(self.list.values)[indexPath.row]
 //        cell.text = key + value
         let item = self.list[indexPath.row] as! [String:Any]
         print("item is = \(item)")
         cell.textLabel?.text = list[indexPath.row]["title"] as! String
-        
+        if item["selected"] as! Bool == true{
+            cell.accessoryType = .checkmark
+        }
+        else{
+            cell.accessoryType = .none
+        }
        return cell
         }
   //*/  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -84,11 +89,14 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         }
     }*/
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = .none
-        }
-    }
+        var item = self.list[indexPath.row]
+         item["selected"] = !(item["selected"]as! Bool)
+     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var item = self.list[indexPath.row]
+        item["selected"] = !(item["selected"]as! Bool)
+      
+        return
         if let cell = tableView.cellForRow(at: indexPath) {
          
             cell.accessoryType = .checkmark
